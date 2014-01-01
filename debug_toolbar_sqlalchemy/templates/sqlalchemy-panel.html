@@ -1,0 +1,33 @@
+{% load i18n l10n %}
+{% if queries %}
+    <table>
+        <thead>
+            <tr>
+                <th class="statement">{% trans "Statement" %}</th>
+                <th class="parameter">{% trans "Parameters" %}</th>
+                <th class="time">{% trans "Time (ms)" %}</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for query in queries %}
+                <tr class="djDebugHoverable {% cycle 'djDebugOdd' 'djDebugEven' %}{% if query.is_slow %} djDebugRowWarning{% endif %}" id="sqlMain_{{ forloop.counter }}">
+                    <td class="statement">
+                        <div class="djDebugSqlWrap">
+                            <div class="djDebugSql">{{ query.statement|safe }}</div>
+                        </div>
+                    </td>
+                    <td class="parameter">
+                        <div class="djDebugSqlWrap">
+                            <div class="djDebugSql">{{ query.parameters|safe }}</div>
+                        </div>
+                    </td>
+                    <td class="time">
+                        {{ query.duration|floatformat:"0" }}
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% else %}
+        <p>{% trans "No SQLAlchemy queries were recorded during this request." %}</p>
+{% endif %}
