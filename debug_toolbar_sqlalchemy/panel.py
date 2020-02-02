@@ -14,9 +14,6 @@ class SqlAlchemyDebugPanel(Panel):
         self.tracker = OperationTracker()
         self.tracker.register()
 
-    def process_request(self, request):
-        pass
-
     def nav_title(self):
         return _('SQLAlchemy')
 
