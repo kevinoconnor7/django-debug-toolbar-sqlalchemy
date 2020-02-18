@@ -1,7 +1,9 @@
 from debug_toolbar.panels import Panel
 from debug_toolbar_sqlalchemy.operation_tracker import OperationTracker
+
 from django.utils.translation import ugettext as _
 from django.template.loader import render_to_string
+
 
 class SqlAlchemyDebugPanel(Panel):
     """ Panel that shows information about SQLAlchemy operations. """
@@ -20,7 +22,11 @@ class SqlAlchemyDebugPanel(Panel):
     def nav_subtitle(self):
         if self.tracker:
             count = len(self.tracker.queries)
-            return "%d %s" % (count, "query" if count == 1 else "queries")
+            return "%d %s in %.2fms" % (
+                count,
+                "query" if count == 1 else "queries",
+                sum(map(lambda query: query.duration, self.tracker.queries)),
+            )
 
         return "Unavailable"
 
@@ -36,4 +42,3 @@ class SqlAlchemyDebugPanel(Panel):
             self.template,
             {'queries': self.tracker.queries}
         )
-
