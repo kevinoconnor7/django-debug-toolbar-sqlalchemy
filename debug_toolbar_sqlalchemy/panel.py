@@ -1,7 +1,7 @@
 from debug_toolbar.panels import Panel
 from debug_toolbar_sqlalchemy.operation_tracker import OperationTracker
 
-from django.utils.translation import ugettext as _
+from django.utils.translation import gettext as _
 from django.template.loader import render_to_string
 
 
